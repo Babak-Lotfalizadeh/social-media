@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "808246572772",
+    "project_id": "social-media-cd995",
+    "storage_bucket": "social-media-cd995.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808246572772:android:ba84796655c2501a611ef1",
+        "android_client_info": {
+          "package_name": "com.babak.social_media"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW-rlF-u-ptc98YBRzvhRVaPU65drkLuw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

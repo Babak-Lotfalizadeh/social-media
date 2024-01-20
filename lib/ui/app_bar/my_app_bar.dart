@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_media/core/theme/static_sizes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:social_media/ui/home/my_toolbar_icon.dart';
+import 'package:social_media/ui/app_bar/my_toolbar_icon.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({super.key});
