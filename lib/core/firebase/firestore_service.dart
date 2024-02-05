@@ -5,7 +5,7 @@ class FireStoreService {
 
   FireStoreService.setup();
 
-  void getPosts() async {
+  Future<void> getPosts() async {
     await db.collection("posts").get().then((event) {
       for (var doc in event.docs) {
         print("${doc.id} => ${doc.data()}");
