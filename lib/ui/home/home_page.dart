@@ -12,10 +12,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(),
-      body: BlocBuilder<HomeBloc,HomeState>(
+      body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          if(state is HomeStateLoaded){
-            return HomeContent(posts: state.posts);
+          if (state is HomeStateLoaded) {
+            return HomeContent(
+              posts: state.posts,
+              story: state.story,
+            );
           }
 
           return const SizedBox.shrink();
