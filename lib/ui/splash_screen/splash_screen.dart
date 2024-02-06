@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:social_media/core/firebase/firestore_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_media/ui/home/bloc/home_bloc.dart';
+import 'package:social_media/ui/home/bloc/home_event.dart';
 import 'package:social_media/ui/landing/landing_page.dart';
 import 'package:social_media/ui/public/app_icon.dart';
 import 'package:social_media/utils/context_extension.dart';
@@ -36,7 +37,6 @@ class _SplashScreenState extends State<SplashScreen>
     curve: Curves.easeOut,
   ));
 
-
   late final AnimationController _loadOutController = AnimationController(
     duration: StaticSize.animationNormal,
     vsync: this,
@@ -68,11 +68,11 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _getInitialData() async {
-    await GetIt.instance<FireStoreService>().getPosts();
+    context.read<HomeBloc>().add(HomeEventGetData());
   }
 
   void _goNextPage() {
-    _loadOutController.forward().whenComplete((){
+    _loadOutController.forward().whenComplete(() {
       context.pushReplace(const LandingPage());
     });
   }

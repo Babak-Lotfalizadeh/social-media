@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media/core/theme/my_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:social_media/ui/home/bloc/home_bloc.dart';
+import 'package:social_media/ui/home/bloc/home_state.dart';
 import 'package:social_media/ui/splash_screen/splash_screen.dart';
 
 class SocialMediaApp extends StatelessWidget {
@@ -8,13 +11,23 @@ class SocialMediaApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      onGenerateTitle: (context) => AppLocalizations.of(context)?.appName ?? 'Social media',
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      theme: MyTheme.themeData,
-      darkTheme: MyTheme.darkThemeData,
-      home: const SplashScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => HomeBloc(
+            HomeStateInitial(),
+          ),
+        ),
+      ],
+      child: MaterialApp(
+        onGenerateTitle: (context) =>
+            AppLocalizations.of(context)?.appName ?? 'Social media',
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        theme: MyTheme.themeData,
+        darkTheme: MyTheme.darkThemeData,
+        home: const SplashScreen(),
+      ),
     );
   }
 }
