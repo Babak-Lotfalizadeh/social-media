@@ -5,6 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:social_media/ui/home/bloc/home_bloc.dart';
 import 'package:social_media/ui/home/bloc/home_state.dart';
 import 'package:social_media/ui/splash_screen/splash_screen.dart';
+import 'package:social_media/ui/story/bloc/story_bloc.dart';
+import 'package:social_media/ui/story/bloc/story_state.dart';
 
 class SocialMediaApp extends StatelessWidget {
   const SocialMediaApp({super.key});
@@ -16,6 +18,11 @@ class SocialMediaApp extends StatelessWidget {
         BlocProvider(
           create: (context) => HomeBloc(
             HomeStateInitial(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => StoryBloc(
+            StoryState(),
           ),
         ),
       ],

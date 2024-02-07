@@ -4,6 +4,7 @@ part 'story_view_model.g.dart';
 
 @JsonSerializable()
 class StoryViewModel {
+  @JsonKey(includeFromJson: false) late String id;
   String image;
   String userImage;
   String userName;
@@ -15,6 +16,14 @@ class StoryViewModel {
     required this.userName,
     required this.seen,
   });
+
+  void setId(String newId){
+    id = newId;
+  }
+
+  void setSeen(bool newValue) {
+    seen = newValue;
+  }
 
   factory StoryViewModel.fromJson(Map<String, dynamic> json) =>
       _$StoryViewModelFromJson(json);

@@ -10,4 +10,14 @@ extension ContextExtension on BuildContext {
     );
   }
 
+  void push(Widget nextPage) {
+    Navigator.of(this).push(
+      MaterialPageRoute(builder: (context) => nextPage,)
+    );
+  }
+
+  void pop(){
+    Navigator.of(this).pop();
+  }
+
 }

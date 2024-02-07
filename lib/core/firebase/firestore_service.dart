@@ -20,8 +20,16 @@ class FireStoreService {
     final querySnapshot = await db.collection("stores").get();
     final result = List.generate(querySnapshot.size, (index) {
       final item = querySnapshot.docs[index];
-      return StoryViewModel.fromJson(item.data());
+      final result = StoryViewModel.fromJson(item.data());
+      result.setId(item.id);
+      return result;
     });
     return result;
+  }
+
+  Future<void> markStoryAsSeen(StoryViewModel storyViewModel) async {
+    final story = db.collection("stores").doc(storyViewModel.id);
+    storyViewModel.setSeen(true);
+    story.set(storyViewModel.toJson());
   }
 }
