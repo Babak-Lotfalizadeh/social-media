@@ -17,7 +17,6 @@ class HomePage extends StatelessWidget {
           if (state is HomeStateLoaded) {
             return HomeContent(
               posts: state.posts,
-              story: state.story,
             );
           }
 

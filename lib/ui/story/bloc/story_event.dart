@@ -2,6 +2,8 @@ import 'package:social_media/data/model/story_view_model.dart';
 
 class StoryEvent {}
 
+class StoryEventGetData extends StoryEvent {}
+
 class StoryEventPreview extends StoryEvent {
   final StoryViewModel storyViewModel;
 

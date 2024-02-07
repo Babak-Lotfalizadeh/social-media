@@ -1,5 +1,4 @@
 import 'package:social_media/data/model/post_view_model.dart';
-import 'package:social_media/data/model/story_view_model.dart';
 
 class HomeState {}
 
@@ -13,10 +12,8 @@ class HomeStateFail extends HomeState {
 
 class HomeStateLoaded extends HomeState {
   final List<PostViewModel> posts;
-  final List<StoryViewModel> story;
 
   HomeStateLoaded({
     required this.posts,
-    required this.story,
   });
 }

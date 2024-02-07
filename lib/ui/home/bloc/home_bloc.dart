@@ -15,12 +15,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) async {
     var posts = await GetIt.instance<FireStoreService>().getPosts();
-    var story = await GetIt.instance<FireStoreService>().getStory();
 
     emit(
       HomeStateLoaded(
         posts: posts,
-        story: story,
       ),
     );
   }

@@ -7,7 +7,18 @@ import 'story_state.dart';
 
 class StoryBloc extends Bloc<StoryEvent, StoryState> {
   StoryBloc(super.initialState) {
+    on<StoryEventGetData>(_getData);
     on<StoryEventPreview>(_storyPreview);
+  }
+
+  Future<void> _getData(
+    StoryEventGetData event,
+    Emitter<StoryState> emit,
+  ) async {
+    var storyStream = getIt<FireStoreService>().getStory();
+    emit(
+      StoryStateLoaded(story: storyStream),
+    );
   }
 
   Future<void> _storyPreview(

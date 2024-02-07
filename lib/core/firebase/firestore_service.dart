@@ -16,15 +16,17 @@ class FireStoreService {
     return result;
   }
 
-  Future<List<StoryViewModel>> getStory() async {
-    final querySnapshot = await db.collection("stores").get();
-    final result = List.generate(querySnapshot.size, (index) {
-      final item = querySnapshot.docs[index];
-      final result = StoryViewModel.fromJson(item.data());
-      result.setId(item.id);
+  Stream<List<StoryViewModel>> getStory() {
+    final querySnapshot = db.collection("stores").orderBy('seen').snapshots();
+    return querySnapshot.map((event) {
+      final result = List.generate(event.size, (index) {
+        final item = event.docs[index];
+        final result = StoryViewModel.fromJson(item.data());
+        result.setId(item.id);
+        return result;
+      });
       return result;
     });
-    return result;
   }
 
   Future<void> markStoryAsSeen(StoryViewModel storyViewModel) async {
