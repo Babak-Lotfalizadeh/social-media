@@ -1,35 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media/core/theme/static_sizes.dart';
-import 'package:social_media/data/model/post_view_model.dart';
+import 'package:social_media/ui/home/bloc/home_bloc.dart';
+import 'package:social_media/ui/home/bloc/home_state.dart';
 import 'package:social_media/ui/home/widget/post_card.dart';
-import 'package:social_media/ui/story/story_bar.dart';
 
 class HomeContent extends StatelessWidget {
   const HomeContent({
-    required this.posts,
     super.key,
   });
 
-  final List<PostViewModel> posts;
-
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: EdgeInsets.symmetric(vertical: StaticSize.paddingLarge),
-      itemBuilder: (context, index) {
-        if (index == 0) {
-          return const StoryBar();
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state is HomeStateLoaded) {
+          return StreamBuilder(
+            stream: state.posts,
+            builder: (context, snapshot) {
+              if(snapshot.hasData && snapshot.data != null){
+                return SliverList.separated(
+                  itemCount: snapshot.data?.length ?? 0,
+                  itemBuilder: (context, index) => PostCard(
+                    post: snapshot.data?[index],
+                  ),
+                  separatorBuilder: (context, index) => Padding(
+                    padding: EdgeInsets.symmetric(vertical: StaticSize.paddingNormal),
+                    child: const Divider(),
+                  ),
+                );
+              }
+              return const SliverToBoxAdapter(child: SizedBox.shrink());
+            },
+          );
         }
-
-        return PostCard(
-          post: posts[index - 1],
-        );
+        return const SliverToBoxAdapter(child: SizedBox.shrink());
       },
-      separatorBuilder: (context, index) => Padding(
-        padding: EdgeInsets.symmetric(vertical: StaticSize.paddingNormal),
-        child: index == 0 ? const SizedBox.shrink() : const Divider(),
-      ),
-      itemCount: posts.length + 1,
     );
   }
 }

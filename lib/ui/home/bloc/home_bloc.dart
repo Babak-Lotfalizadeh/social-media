@@ -14,7 +14,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeEventGetData event,
     Emitter<HomeState> emit,
   ) async {
-    var posts = await GetIt.instance<FireStoreService>().getPosts();
+    var posts = GetIt.instance<FireStoreService>().getPosts();
 
     emit(
       HomeStateLoaded(

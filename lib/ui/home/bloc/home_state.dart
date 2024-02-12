@@ -11,7 +11,7 @@ class HomeStateFail extends HomeState {
 }
 
 class HomeStateLoaded extends HomeState {
-  final List<PostViewModel> posts;
+  final Stream<List<PostViewModel>> posts;
 
   HomeStateLoaded({
     required this.posts,

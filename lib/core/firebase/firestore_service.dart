@@ -7,13 +7,21 @@ class FireStoreService {
 
   FireStoreService.setup();
 
-  Future<List<PostViewModel>> getPosts() async {
-    final querySnapshot = await db.collection("posts").get();
-    final result = List.generate(querySnapshot.size, (index) {
-      final item = querySnapshot.docs[index];
-      return PostViewModel.fromJson(item.data());
+  Stream<List<PostViewModel>> getPosts() {
+    final querySnapshot = db
+        .collection("posts")
+        .orderBy(
+          'date',
+          descending: true,
+        )
+        .snapshots();
+    return querySnapshot.map((event) {
+      final result = List.generate(event.size, (index) {
+        final item = event.docs[index];
+        return PostViewModel.fromJson(item.data());
+      });
+      return result;
     });
-    return result;
   }
 
   Stream<List<StoryViewModel>> getStory() {

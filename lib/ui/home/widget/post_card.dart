@@ -10,7 +10,7 @@ class PostCard extends StatelessWidget {
     super.key,
   });
 
-  final PostViewModel post;
+  final PostViewModel? post;
 
   @override
   Widget build(BuildContext context) {
@@ -26,17 +26,18 @@ class PostCard extends StatelessWidget {
             ),
             child: Row(
               children: [
-                UserImage(
-                  imageAddress: post.userImage,
-                ),
+                if (post?.userImage != null)
+                  UserImage(
+                    imageAddress: post?.userImage ?? '',
+                  ),
                 SizedBox(width: StaticSize.paddingNormal),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(post.userName),
+                    Text(post?.userName ?? ''),
                     Opacity(
                       opacity: 0.7,
-                      child: Text(post.location),
+                      child: Text(post?.location ?? ''),
                     ),
                   ],
                 ),
@@ -44,12 +45,13 @@ class PostCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: StaticSize.paddingNormal),
-          Expanded(
-            child: Image.network(
-              post.image,
-              fit: BoxFit.cover,
+          if (post?.image != null)
+            Expanded(
+              child: Image.network(
+                post?.image ?? '',
+                fit: BoxFit.cover,
+              ),
             ),
-          ),
           SizedBox(
             width: double.infinity,
             child: Row(
@@ -81,8 +83,8 @@ class PostCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${post.like} Likes'),
-                Text(post.description),
+                Text('${post?.like ?? 0} Likes'),
+                Text(post?.description ?? ''),
               ],
             ),
           ),
