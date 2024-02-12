@@ -1,21 +1,28 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:social_media/data/model/user_view_model.dart';
 
 part 'story_view_model.g.dart';
 
 @JsonSerializable()
 class StoryViewModel {
   @JsonKey(includeFromJson: false) late String id;
+  @JsonKey(includeFromJson: false) UserViewModel? user;
   String image;
-  String userImage;
-  String userName;
+  String userId;
   bool seen;
 
   StoryViewModel({
     required this.image,
-    required this.userImage,
-    required this.userName,
+    required this.userId,
     required this.seen,
   });
+
+  void setUser(List<UserViewModel>? allUsers){
+    final matchUsers = allUsers?.where((element) => element.userId == userId);
+    if(matchUsers?.isNotEmpty == true){
+      user = matchUsers?.first;
+    }
+  }
 
   void setId(String newId){
     id = newId;

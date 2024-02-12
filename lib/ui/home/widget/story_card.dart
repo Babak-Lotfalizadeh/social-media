@@ -43,7 +43,7 @@ class StoryCard extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(800)),
                 child: Image.network(
-                  story.userImage,
+                  story.user?.userImage ?? '',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -52,7 +52,7 @@ class StoryCard extends StatelessWidget {
           SizedBox(height: StaticSize.paddingSmall),
           Expanded(
             child: Text(
-              story.userName,
+              story.user?.userName ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

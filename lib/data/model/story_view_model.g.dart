@@ -9,15 +9,13 @@ part of 'story_view_model.dart';
 StoryViewModel _$StoryViewModelFromJson(Map<String, dynamic> json) =>
     StoryViewModel(
       image: json['image'] as String,
-      userImage: json['userImage'] as String,
-      userName: json['userName'] as String,
+      userId: json['userId'] as String,
       seen: json['seen'] as bool,
     );
 
 Map<String, dynamic> _$StoryViewModelToJson(StoryViewModel instance) =>
     <String, dynamic>{
       'image': instance.image,
-      'userImage': instance.userImage,
-      'userName': instance.userName,
+      'userId': instance.userId,
       'seen': instance.seen,
     };

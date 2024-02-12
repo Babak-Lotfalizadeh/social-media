@@ -26,15 +26,15 @@ class PostCard extends StatelessWidget {
             ),
             child: Row(
               children: [
-                if (post?.userImage != null)
+                if (post?.user?.userImage != null)
                   UserImage(
-                    imageAddress: post?.userImage ?? '',
+                    imageAddress: post?.user?.userImage ?? '',
                   ),
                 SizedBox(width: StaticSize.paddingNormal),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(post?.userName ?? ''),
+                    Text(post?.user?.userName ?? ''),
                     Opacity(
                       opacity: 0.7,
                       child: Text(post?.location ?? ''),
