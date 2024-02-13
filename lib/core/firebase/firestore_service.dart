@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:social_media/data/model/post_view_model.dart';
 import 'package:social_media/data/model/story_view_model.dart';
 import 'package:social_media/data/model/user_view_model.dart';
 
 class FireStoreService {
+  final _storySteamController = StreamController<List<StoryViewModel>>();
   late final FirebaseFirestore _db = FirebaseFirestore.instance;
   List<UserViewModel>? _users;
 
@@ -36,9 +39,15 @@ class FireStoreService {
     });
   }
 
+
   Stream<List<StoryViewModel>> getStory() {
+    _getStory();
+    return _storySteamController.stream;
+  }
+
+  void _getStory() {
     final querySnapshot = _db.collection("stores").orderBy('seen').snapshots();
-    return querySnapshot.map((event) {
+    var storyStream = querySnapshot.map((event) {
       final result = List.generate(event.size, (index) {
         final item = event.docs[index];
         final result = StoryViewModel.fromJson(item.data());
@@ -47,6 +56,16 @@ class FireStoreService {
         return result;
       });
       return result;
+    });
+
+    storyStream.listen((event) {
+      var result = event
+          .map((e) => e.userId)
+          .toSet()
+          .map((e) => event.firstWhere((element) => element.userId == e))
+          .toList();
+
+      _storySteamController.add(result);
     });
   }
 
