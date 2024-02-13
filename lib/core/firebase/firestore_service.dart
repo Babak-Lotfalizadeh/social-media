@@ -74,4 +74,12 @@ class FireStoreService {
     storyViewModel.setSeen(true);
     story.set(storyViewModel.toJson());
   }
+
+  void toggleLikeButton(PostViewModel? postViewModel) {
+    if(postViewModel == null) return;
+    final post = _db.collection("posts").doc(postViewModel.id);
+    postViewModel.toggleLikeButton();
+    post.set(postViewModel.toJson());
+  }
+
 }

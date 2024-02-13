@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media/core/theme/static_sizes.dart';
 import 'package:social_media/data/model/post_view_model.dart';
+import 'package:social_media/ui/home/bloc/home_bloc.dart';
+import 'package:social_media/ui/home/bloc/home_event.dart';
 import 'package:social_media/ui/home/widget/post_icon.dart';
 import 'package:social_media/ui/home/widget/user_image.dart';
 
@@ -57,8 +60,12 @@ class PostCard extends StatelessWidget {
             child: Row(
               children: [
                 PostIcon(
-                  onPressed: () {},
-                  iconData: Icons.favorite,
+                  onPressed: () => context.read<HomeBloc>().add(
+                        HomeEventLikeAPost(postViewModel: post),
+                      ),
+                  iconData: post?.isLikeByMe() == true
+                      ? Icons.favorite
+                      : Icons.favorite_border,
                 ),
                 PostIcon(
                   onPressed: () {},
@@ -83,7 +90,7 @@ class PostCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${post?.like ?? 0} Likes'),
+                Text('${post?.like.length ?? 0} Likes'),
                 Text(post?.description ?? ''),
               ],
             ),
