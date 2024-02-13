@@ -5,6 +5,7 @@ import 'package:social_media/data/model/post_view_model.dart';
 import 'package:social_media/ui/home/bloc/home_bloc.dart';
 import 'package:social_media/ui/home/bloc/home_event.dart';
 import 'package:social_media/ui/home/widget/post_icon.dart';
+import 'package:social_media/ui/home/widget/post_image_widget.dart';
 import 'package:social_media/ui/home/widget/user_image.dart';
 
 class PostCard extends StatelessWidget {
@@ -48,13 +49,7 @@ class PostCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: StaticSize.paddingNormal),
-          if (post?.image != null)
-            Expanded(
-              child: Image.network(
-                post?.image ?? '',
-                fit: BoxFit.cover,
-              ),
-            ),
+          PostImageWidget(postViewModel: post),
           SizedBox(
             width: double.infinity,
             child: Row(
