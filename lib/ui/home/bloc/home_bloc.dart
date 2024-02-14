@@ -10,6 +10,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc(super.initialState) {
     on<HomeEventGetData>(_getData);
     on<HomeEventLikeAPost>(_likeAPost);
+    on<HomeEventShareAPost>(_shareAPost);
   }
 
   Future<void> _getData(
@@ -32,5 +33,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     getIt<FireStoreService>().toggleLikeButton(event.postViewModel);
   }
 
-
+  Future<void> _shareAPost(
+    HomeEventShareAPost event,
+    Emitter<HomeState> emit,
+  ) async {
+  }
 }

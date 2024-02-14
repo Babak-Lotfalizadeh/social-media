@@ -67,7 +67,9 @@ class PostCard extends StatelessWidget {
                   iconData: Icons.comment,
                 ),
                 PostIcon(
-                  onPressed: () {},
+                  onPressed: () => context.read<HomeBloc>().add(
+                    HomeEventShareAPost(postViewModel: post),
+                  ),
                   iconData: Icons.share,
                 ),
                 const Spacer(),

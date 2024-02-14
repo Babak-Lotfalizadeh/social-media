@@ -11,3 +11,11 @@ class HomeEventLikeAPost extends HomeEvent {
     required this.postViewModel,
   });
 }
+
+class HomeEventShareAPost extends HomeEvent {
+  final PostViewModel? postViewModel;
+
+  HomeEventShareAPost({
+    required this.postViewModel,
+  });
+}
