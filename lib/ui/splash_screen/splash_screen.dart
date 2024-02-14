@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:social_media/core/di/di_service.dart';
+import 'package:social_media/core/firebase/firebase_auth_service.dart';
 import 'package:social_media/core/firebase/firestore_service.dart';
 import 'package:social_media/ui/landing/landing_page.dart';
+import 'package:social_media/ui/login/login_page.dart';
 import 'package:social_media/ui/public/app_icon.dart';
 import 'package:social_media/utils/context_extension.dart';
 import 'package:social_media/utils/export.dart';
@@ -71,8 +73,13 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _goNextPage() {
+    var isUserLogin = getIt<FirebaseAuthService>().isLogin();
     _loadOutController.forward().whenComplete(() {
-      context.pushReplace(const LandingPage());
+      if(isUserLogin) {
+        context.pushReplace(const LandingPage());
+      } else {
+        context.pushReplace(const LoginPage());
+      }
     });
   }
 
@@ -90,6 +97,7 @@ class _SplashScreenState extends State<SplashScreen>
                 width: double.infinity,
               ),
             ),
+            SizedBox(height: StaticSize.paddingLarge),
             SlideTransition(
               position: _logoOffsetAnimation,
               child: AppIcon(

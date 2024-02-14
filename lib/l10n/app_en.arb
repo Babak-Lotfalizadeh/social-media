@@ -3,5 +3,8 @@
   "home": "Home",
   "search": "Search",
   "play": "Play",
-  "profile": "Profile"
+  "profile": "Profile",
+  "email": "Email",
+  "password": "Password",
+  "login": "Login"
 }
