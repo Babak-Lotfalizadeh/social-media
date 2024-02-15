@@ -12,6 +12,11 @@ class FireStoreService {
 
   FireStoreService.setup();
 
+  Future<void> getInitialData() async {
+    await Future.wait([getUsers()]);
+    _getStory();
+  }
+
   Future<void> getUsers() async {
     final query = await _db.collection('users').get();
     _users = List.generate(
@@ -39,11 +44,7 @@ class FireStoreService {
     });
   }
 
-
-  Stream<List<StoryViewModel>> getStory() {
-    _getStory();
-    return _storySteamController.stream;
-  }
+  Stream<List<StoryViewModel>> get storyStream => _storySteamController.stream.asBroadcastStream();
 
   void _getStory() {
     final querySnapshot = _db.collection("stores").orderBy('seen').snapshots();
@@ -76,10 +77,11 @@ class FireStoreService {
   }
 
   void toggleLikeButton(PostViewModel? postViewModel) {
-    if(postViewModel == null) return;
+    if (postViewModel == null) return;
     final post = _db.collection("posts").doc(postViewModel.id);
     postViewModel.toggleLikeButton();
     post.set(postViewModel.toJson());
   }
+
 
 }

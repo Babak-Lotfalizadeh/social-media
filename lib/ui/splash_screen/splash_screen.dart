@@ -69,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _getInitialData() async {
-    await getIt<FireStoreService>().getUsers();
+    await getIt<FireStoreService>().getInitialData();
   }
 
   void _goNextPage() {

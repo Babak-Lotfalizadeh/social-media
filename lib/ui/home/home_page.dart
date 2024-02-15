@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
       appBar: const MyAppBar(),
       body: CustomScrollView(
         slivers: [
-          const SliverToBoxAdapter(child: StoryBar()),
+          const StoryBar(),
           SliverToBoxAdapter(child: SizedBox(height: StaticSize.paddingLarge)),
           const HomeContent(),
         ],

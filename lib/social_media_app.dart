@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media/core/theme/my_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:social_media/ui/home/bloc/home_bloc.dart';
+import 'package:social_media/ui/home/bloc/home_event.dart';
 import 'package:social_media/ui/home/bloc/home_state.dart';
 import 'package:social_media/ui/splash_screen/splash_screen.dart';
 import 'package:social_media/ui/story/bloc/story_bloc.dart';
+import 'package:social_media/ui/story/bloc/story_event.dart';
 import 'package:social_media/ui/story/bloc/story_state.dart';
 
 class SocialMediaApp extends StatelessWidget {
@@ -18,12 +20,12 @@ class SocialMediaApp extends StatelessWidget {
         BlocProvider(
           create: (context) => HomeBloc(
             HomeStateInitial(),
-          ),
+          )..add(HomeEventGetData()),
         ),
         BlocProvider(
           create: (context) => StoryBloc(
             StoryState(),
-          ),
+          )..add(StoryEventGetData()),
         ),
       ],
       child: MaterialApp(

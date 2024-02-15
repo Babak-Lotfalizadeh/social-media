@@ -13,10 +13,12 @@ class StoryCard extends StatelessWidget {
     required this.story,
   });
 
-  final StoryViewModel story;
+  final StoryViewModel? story;
 
   @override
   Widget build(BuildContext context) {
+    if(story == null) return const SizedBox.shrink();
+
     return SizedBox(
       width: StaticSize.userStory,
       child: Column(
@@ -25,10 +27,10 @@ class StoryCard extends StatelessWidget {
             onTap: () {
               context.read<StoryBloc>().add(
                     StoryEventPreview(
-                      storyViewModel: story,
+                      storyViewModel: story!,
                     ),
                   );
-              context.push(StoryPreview(story: story));
+              context.push(StoryPreview(story: story!));
             },
             child: Container(
               width: StaticSize.userStory,
@@ -37,13 +39,13 @@ class StoryCard extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: Theme.of(context).primaryColor,
-                  width: story.seen ? 0 : StaticSize.paddingSmall,
+                  width: story!.seen ? 0 : StaticSize.paddingSmall,
                 ),
               ),
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(800)),
                 child: Image.network(
-                  story.user?.userImage ?? '',
+                  story!.user?.userImage ?? '',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -52,7 +54,7 @@ class StoryCard extends StatelessWidget {
           SizedBox(height: StaticSize.paddingSmall),
           Expanded(
             child: Text(
-              story.user?.userName ?? '',
+              story!.user?.userName ?? '',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

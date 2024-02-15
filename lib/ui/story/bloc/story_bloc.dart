@@ -15,7 +15,8 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
     StoryEventGetData event,
     Emitter<StoryState> emit,
   ) async {
-    var storyStream = getIt<FireStoreService>().getStory();
+    if(state is StoryStateLoaded) return;
+    var storyStream = getIt<FireStoreService>().storyStream;
     emit(
       StoryStateLoaded(story: storyStream),
     );

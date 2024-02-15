@@ -9,29 +9,20 @@ class StoryBarLoadedWidget extends StatelessWidget {
     super.key,
   });
 
-  final Stream<List<StoryViewModel>> story;
+  final List<StoryViewModel>? story;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: story,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.data == null) {
-          return const SizedBox.shrink();
-        }
-
-        return ListView.separated(
-          padding: EdgeInsets.symmetric(horizontal: StaticSize.paddingLarge),
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => StoryCard(
-            story: snapshot.data![index],
-          ),
-          separatorBuilder: (context, index) => SizedBox(
-            width: StaticSize.paddingLarge,
-          ),
-          itemCount: snapshot.data!.length,
-        );
-      },
+    return ListView.separated(
+      padding: EdgeInsets.symmetric(horizontal: StaticSize.paddingLarge),
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (context, index) => StoryCard(
+        story: story?[index],
+      ),
+      separatorBuilder: (context, index) => SizedBox(
+        width: StaticSize.paddingLarge,
+      ),
+      itemCount: story?.length ?? 0,
     );
   }
 }
