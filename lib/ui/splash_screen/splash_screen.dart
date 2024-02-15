@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media/core/di/di_service.dart';
 import 'package:social_media/core/firebase/firebase_auth_service.dart';
 import 'package:social_media/core/firebase/firestore_service.dart';
 import 'package:social_media/ui/landing/landing_page.dart';
 import 'package:social_media/ui/login/login_page.dart';
+import 'package:social_media/ui/profile/bloc/profile_bloc.dart';
+import 'package:social_media/ui/profile/bloc/profile_event.dart';
 import 'package:social_media/ui/public/app_icon.dart';
 import 'package:social_media/utils/context_extension.dart';
 import 'package:social_media/utils/export.dart';
@@ -69,6 +72,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _getInitialData() async {
+    context.read<ProfileBloc>().add(ProfileEventGetData());
     await getIt<FireStoreService>().getInitialData();
   }
 

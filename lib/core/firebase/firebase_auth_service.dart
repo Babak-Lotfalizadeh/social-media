@@ -5,6 +5,8 @@ class FirebaseAuthService {
 
   FirebaseAuthService.setup();
 
+  User? get user => _instance.currentUser;
+
   bool isLogin() => _instance.currentUser != null;
 
   void listen() {

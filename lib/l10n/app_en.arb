@@ -6,5 +6,10 @@
   "profile": "Profile",
   "email": "Email",
   "password": "Password",
-  "login": "Login"
+  "login": "Login",
+  "posts": "posts",
+  "followers": "followers",
+  "following": "following",
+  "editProfile": "Edit profile",
+  "shareProfile": "Share profile"
 }

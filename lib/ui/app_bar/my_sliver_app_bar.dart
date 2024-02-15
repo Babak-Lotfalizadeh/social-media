@@ -3,12 +3,12 @@ import 'package:social_media/ui/app_bar/my_toolbar_icon.dart';
 import 'package:social_media/ui/public/app_icon.dart';
 import 'package:social_media/utils/export.dart';
 
-class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
+class MySliverAppBar extends StatelessWidget  {
   final bool showAdd;
   final bool showLike;
   final bool showMessage;
 
-  const MyAppBar({
+  const MySliverAppBar({
     this.showAdd = false,
     this.showLike = false,
     this.showMessage = false,
@@ -17,7 +17,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
+    return SliverAppBar(
+
       leading: Padding(
         padding: EdgeInsets.only(left: StaticSize.paddingNormal),
         child: const AppIcon(),
@@ -48,7 +49,4 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       ],
     );
   }
-
-  @override
-  Size get preferredSize => const Size(double.infinity, kToolbarHeight);
 }

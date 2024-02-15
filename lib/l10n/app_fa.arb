@@ -6,5 +6,10 @@
   "profile": "پروفایل",
   "email": "پست الکترونیکی",
   "password": "گذرواژه",
-  "login": "ورود"
+  "login": "ورود",
+  "posts": "پست ها",
+  "followers": "دنبال شده ها",
+  "following": "دنبال کننده ها",
+  "editProfile": "ویرایش پروفایل",
+  "shareProfile": "اشتراک گذاری پروفایل"
 }

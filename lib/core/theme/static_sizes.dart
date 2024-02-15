@@ -7,6 +7,7 @@ class StaticSize {
 
   static double get iconSizeSmall => 25.0;
   static double get iconSizeNormal => 40.0;
+  static double get iconSizeLarge => 70.0;
 
   static double get userIcon => 50.0;
 

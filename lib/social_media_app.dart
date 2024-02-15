@@ -5,6 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:social_media/ui/home/bloc/home_bloc.dart';
 import 'package:social_media/ui/home/bloc/home_event.dart';
 import 'package:social_media/ui/home/bloc/home_state.dart';
+import 'package:social_media/ui/profile/bloc/profile_bloc.dart';
+import 'package:social_media/ui/profile/bloc/profile_state.dart';
 import 'package:social_media/ui/splash_screen/splash_screen.dart';
 import 'package:social_media/ui/story/bloc/story_bloc.dart';
 import 'package:social_media/ui/story/bloc/story_event.dart';
@@ -26,6 +28,11 @@ class SocialMediaApp extends StatelessWidget {
           create: (context) => StoryBloc(
             StoryState(),
           )..add(StoryEventGetData()),
+        ),
+        BlocProvider(
+          create: (context) => ProfileBloc(
+            ProfileStateInit(),
+          ),
         ),
       ],
       child: MaterialApp(

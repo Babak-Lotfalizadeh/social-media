@@ -4,9 +4,11 @@ import 'package:social_media/core/theme/static_sizes.dart';
 class UserImage extends StatelessWidget {
   const UserImage({
     required this.imageAddress,
+    this.size,
     super.key,
   });
 
+  final double? size;
   final String imageAddress;
 
   @override
@@ -17,8 +19,8 @@ class UserImage extends StatelessWidget {
       ),
       child: Image.network(
         imageAddress,
-        height: StaticSize.userIcon,
-        width: StaticSize.userIcon,
+        height: size ?? StaticSize.userIcon,
+        width: size ?? StaticSize.userIcon,
         fit: BoxFit.cover,
       ),
     );

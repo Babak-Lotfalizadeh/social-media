@@ -10,11 +10,24 @@ class FireStoreService {
   late final FirebaseFirestore _db = FirebaseFirestore.instance;
   List<UserViewModel>? _users;
 
+  Stream<List<StoryViewModel>> get storyStream =>
+      _storySteamController.stream.asBroadcastStream();
+
+  List<UserViewModel>? get users => _users;
+
   FireStoreService.setup();
 
   Future<void> getInitialData() async {
     await Future.wait([getUsers()]);
     _getStory();
+  }
+
+  Stream<UserViewModel?> getMyInformation(String? myId) {
+    final snapshots = _db.collection('users').doc(myId).snapshots();
+    return snapshots.map((event) {
+      if(event.data() == null) return null;
+      return UserViewModel.fromJson(event.data()!);
+    });
   }
 
   Future<void> getUsers() async {
@@ -27,6 +40,25 @@ class FireStoreService {
         return result;
       },
     );
+  }
+
+  Stream<List<PostViewModel>> getMyPosts(String? myId) {
+    final querySnapshot = _db
+        .collection("posts")
+        .where('userId', isEqualTo: myId)
+        .orderBy('date', descending: true)
+        .snapshots();
+
+    return querySnapshot.map((event) {
+      final result = List.generate(event.size, (index) {
+        final item = event.docs[index];
+        final result = PostViewModel.fromJson(item.data());
+        result.setId(item.id);
+        result.setUser(_users);
+        return result;
+      });
+      return result;
+    });
   }
 
   Stream<List<PostViewModel>> getPosts() {
@@ -43,8 +75,6 @@ class FireStoreService {
       return result;
     });
   }
-
-  Stream<List<StoryViewModel>> get storyStream => _storySteamController.stream.asBroadcastStream();
 
   void _getStory() {
     final querySnapshot = _db.collection("stores").orderBy('seen').snapshots();
@@ -82,6 +112,4 @@ class FireStoreService {
     postViewModel.toggleLikeButton();
     post.set(postViewModel.toJson());
   }
-
-
 }
