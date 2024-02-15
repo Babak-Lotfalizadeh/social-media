@@ -4,6 +4,7 @@ import 'package:social_media/data/model/post_view_model.dart';
 import 'package:social_media/data/model/user_view_model.dart';
 import 'package:social_media/ui/home/widget/user_image.dart';
 import 'package:social_media/ui/profile/widget/field_value_widget.dart';
+import 'package:social_media/ui/public/my_button.dart';
 import 'package:social_media/utils/export.dart';
 
 class ProfilePageContainer extends StatelessWidget {
@@ -45,7 +46,8 @@ class ProfilePageContainer extends StatelessWidget {
                     ),
                     Expanded(
                       child: FieldValueWidget(
-                        value: "${snapshotPosts.hasData ? (snapshotPosts.data?.length ?? 0) : 0}",
+                        value:
+                            "${snapshotPosts.hasData ? (snapshotPosts.data?.length ?? 0) : 0}",
                         title: strings?.posts,
                       ),
                     ),
@@ -63,6 +65,50 @@ class ProfilePageContainer extends StatelessWidget {
                     ),
                   ],
                 ),
+              ),
+              Row(
+                children: [
+                  SizedBox(width: StaticSize.paddingNormal),
+                  Expanded(
+                    child: MyButton(
+                      onPressed: () {},
+                      title: strings?.editProfile,
+                    ),
+                  ),
+                  SizedBox(width: StaticSize.paddingNormal),
+                  Expanded(
+                    child: MyButton(
+                      title: strings?.shareProfile,
+                      onPressed: () {},
+                    ),
+                  ),
+                  SizedBox(width: StaticSize.paddingNormal),
+                  MyButton(
+                    onPressed: () {},
+                    child: const Icon(Icons.person_add_outlined),
+                  ),
+                  SizedBox(width: StaticSize.paddingNormal),
+                ],
+              ),
+              SizedBox(height: StaticSize.paddingLarge),
+              if(snapshotPosts.hasData && snapshotPosts.data != null)
+              GridView.builder(
+                shrinkWrap: true,
+                primary: false,
+                itemCount: snapshotPosts.data?.length ?? 0,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: StaticSize.paddingSmall,
+                    mainAxisSpacing: StaticSize.paddingSmall,
+                ),
+                itemBuilder: (context, index) {
+                  final item = snapshotPosts.data?[index];
+                  if(item == null) return const SizedBox.shrink();
+                  return Image.network(
+                    item.image,
+                    fit: BoxFit.cover,
+                  );
+                },
               ),
             ],
           );

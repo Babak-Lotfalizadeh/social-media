@@ -14,5 +14,7 @@ class StaticSize {
   static double get userStory => 80.0;
   static double get storyBarHeight => 110.0;
 
+  static double get radiusNormal => 10;
+
   static Duration get animationNormal => const Duration(milliseconds: 300);
 }
