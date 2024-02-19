@@ -17,7 +17,7 @@ class StoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(story == null) return const SizedBox.shrink();
+    if (story == null) return const SizedBox.shrink();
 
     return SizedBox(
       width: StaticSize.userStory,
@@ -30,7 +30,7 @@ class StoryCard extends StatelessWidget {
                       storyViewModel: story!,
                     ),
                   );
-              context.push(StoryPreview(story: story!));
+              context.push(StoryPreview());
             },
             child: Container(
               width: StaticSize.userStory,
@@ -39,7 +39,7 @@ class StoryCard extends StatelessWidget {
                 shape: BoxShape.circle,
                 border: Border.all(
                   color: Theme.of(context).primaryColor,
-                  width: story!.seen ? 0 : StaticSize.paddingSmall,
+                  width: story?.seen == true ? 0 : StaticSize.paddingSmall,
                 ),
               ),
               child: ClipRRect(

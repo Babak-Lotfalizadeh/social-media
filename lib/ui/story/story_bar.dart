@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media/core/theme/static_sizes.dart';
-import 'package:social_media/data/model/story_view_model.dart';
 import 'package:social_media/ui/story/bloc/story_bloc.dart';
 import 'package:social_media/ui/story/bloc/story_state.dart';
 import 'package:social_media/ui/story/widgets/story_bar_fail_widget.dart';

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media/core/di/di_service.dart';
 import 'package:social_media/core/firebase/firestore_service.dart';
@@ -15,8 +16,8 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
     StoryEventGetData event,
     Emitter<StoryState> emit,
   ) async {
-    if(state is StoryStateLoaded) return;
-    var storyStream = getIt<FireStoreService>().storyStream;
+    if (state is StoryStateLoaded) return;
+    var storyStream = getIt<FireStoreService>().getStory();
     emit(
       StoryStateLoaded(story: storyStream),
     );
@@ -26,6 +27,17 @@ class StoryBloc extends Bloc<StoryEvent, StoryState> {
     StoryEventPreview event,
     Emitter<StoryState> emit,
   ) async {
-    await getIt<FireStoreService>().markStoryAsSeen(event.storyViewModel);
+    final storyItems = getIt<FireStoreService>().getStoryItems(
+      event.storyViewModel,
+    );
+
+    if(state is StoryStateLoaded) {
+      emit(
+        StoryStateLoaded(
+          story: (state as StoryStateLoaded).story,
+          items: storyItems,
+        ),
+      );
+    }
   }
 }

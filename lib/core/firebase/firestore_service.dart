@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:social_media/data/model/post_view_model.dart';
+import 'package:social_media/data/model/story_item_view_model.dart';
 import 'package:social_media/data/model/story_view_model.dart';
 import 'package:social_media/data/model/user_view_model.dart';
 
@@ -10,22 +11,18 @@ class FireStoreService {
   late final FirebaseFirestore _db = FirebaseFirestore.instance;
   List<UserViewModel>? _users;
 
-  Stream<List<StoryViewModel>> get storyStream =>
-      _storySteamController.stream.asBroadcastStream();
-
   List<UserViewModel>? get users => _users;
 
   FireStoreService.setup();
 
   Future<void> getInitialData() async {
     await Future.wait([getUsers()]);
-    _getStory();
   }
 
   Stream<UserViewModel?> getMyInformation(String? myId) {
     final snapshots = _db.collection('users').doc(myId).snapshots();
     return snapshots.map((event) {
-      if(event.data() == null) return null;
+      if (event.data() == null) return null;
       return UserViewModel.fromJson(event.data()!);
     });
   }
@@ -76,34 +73,50 @@ class FireStoreService {
     });
   }
 
-  void _getStory() {
-    final querySnapshot = _db.collection("stores").orderBy('seen').snapshots();
-    var storyStream = querySnapshot.map((event) {
-      final result = List.generate(event.size, (index) {
-        final item = event.docs[index];
-        final result = StoryViewModel.fromJson(item.data());
-        result.setId(item.id);
-        result.setUser(_users);
-        return result;
-      });
-      return result;
-    });
-
-    storyStream.listen((event) {
-      var result = event
-          .map((e) => e.userId)
-          .toSet()
-          .map((e) => event.firstWhere((element) => element.userId == e))
-          .toList();
-
-      _storySteamController.add(result);
+  Stream<List<StoryViewModel>> getStory() {
+    return _db
+        .collection("stores")
+        .withConverter<StoryViewModel>(
+          fromFirestore: (snapshot, _) =>
+              StoryViewModel.fromFirestore(snapshot, _users),
+          toFirestore: (value, options) => value.toFirestore(),
+        )
+        .snapshots()
+        .map((event) {
+      return List.generate(event.size, (index) => event.docs[index].data());
     });
   }
 
-  Future<void> markStoryAsSeen(StoryViewModel storyViewModel) async {
-    final story = _db.collection("stores").doc(storyViewModel.id);
-    storyViewModel.setSeen(true);
-    story.set(storyViewModel.toJson());
+  Stream<List<StoryItemViewModel>> getStoryItems(
+    StoryViewModel storyViewModel,
+  ) {
+    return _db
+        .collection("stores")
+        .doc(storyViewModel.id)
+        .collection('items')
+        .withConverter<StoryItemViewModel>(
+          fromFirestore: (snapshot, _) =>
+              StoryItemViewModel.fromFirestore(snapshot),
+          toFirestore: (value, options) => value.toFirestore(),
+        )
+        .snapshots()
+        .map((event) {
+      return List.generate(event.size, (index) => event.docs[index].data());
+    });
+  }
+
+  Future<void> markStoryAsSeen({
+    required StoryViewModel storyViewModel,
+    // required StoryItemViewModel storyItemViewModel,
+  }) async {
+    // final story = _db
+    //     .collection("stores")
+    //     .doc(storyViewModel.id)
+    //     .collection('items')
+    //     .doc(storyItemViewModel.id);
+    //
+    // storyItemViewModel.setSeen(true);
+    // story.set(storyViewModel.toJson());
   }
 
   void toggleLikeButton(PostViewModel? postViewModel) {
