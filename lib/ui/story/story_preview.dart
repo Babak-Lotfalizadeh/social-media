@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:social_media/data/model/story_view_model.dart';
 import 'package:social_media/ui/story/bloc/story_bloc.dart';
 import 'package:social_media/ui/story/bloc/story_state.dart';
 import 'package:social_media/ui/story/story_preview_content.dart';
-import 'package:social_media/utils/context_extension.dart';
 
 class StoryPreview extends StatelessWidget {
-  const StoryPreview({super.key});
+  final StoryViewModel story;
+
+  const StoryPreview({
+    super.key,
+    required this.story,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +24,10 @@ class StoryPreview extends StatelessWidget {
             stream: state.items,
             builder: (context, snapshot) {
               if (snapshot.hasData == false) return const SizedBox.shrink();
-              return StoryPreviewContent(data: snapshot.data);
+              return StoryPreviewContent(
+                data: snapshot.data,
+                story: story,
+              );
             },
           );
         },

@@ -30,7 +30,11 @@ class StoryCard extends StatelessWidget {
                       storyViewModel: story!,
                     ),
                   );
-              context.push(StoryPreview());
+              context.push(
+                StoryPreview(
+                  story: story!,
+                ),
+              );
             },
             child: Container(
               width: StaticSize.userStory,

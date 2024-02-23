@@ -4,7 +4,7 @@ import 'package:social_media/data/model/user_view_model.dart';
 class StoryViewModel {
   final UserViewModel? user;
   final String id;
-  final bool seen;
+  bool seen;
 
   StoryViewModel({
     required this.id,
@@ -30,8 +30,12 @@ class StoryViewModel {
 
   Map<String, dynamic> toFirestore() {
     return {
-      "id": id,
+      "seen": seen,
       "userId": user?.userId,
     };
+  }
+
+  void setSeen(bool newValue) {
+    seen = newValue;
   }
 }

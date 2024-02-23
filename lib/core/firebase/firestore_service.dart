@@ -7,7 +7,6 @@ import 'package:social_media/data/model/story_view_model.dart';
 import 'package:social_media/data/model/user_view_model.dart';
 
 class FireStoreService {
-  final _storySteamController = StreamController<List<StoryViewModel>>();
   late final FirebaseFirestore _db = FirebaseFirestore.instance;
   List<UserViewModel>? _users;
 
@@ -106,18 +105,32 @@ class FireStoreService {
   }
 
   Future<void> markStoryAsSeen({
-    required StoryViewModel storyViewModel,
-    // required StoryItemViewModel storyItemViewModel,
+    required StoryViewModel? storyViewModel,
   }) async {
-    // final story = _db
-    //     .collection("stores")
-    //     .doc(storyViewModel.id)
-    //     .collection('items')
-    //     .doc(storyItemViewModel.id);
-    //
-    // storyItemViewModel.setSeen(true);
-    // story.set(storyViewModel.toJson());
+    if(storyViewModel == null) return;
+    final story = _db
+        .collection("stores")
+        .doc(storyViewModel.id);
+
+    storyViewModel.setSeen(true);
+    story.set(storyViewModel.toFirestore());
   }
+
+  Future<void> markItemStoryAsSeen({
+    required StoryItemViewModel? storyItemViewModel,
+    required StoryViewModel? storyViewModel,
+  }) async {
+    if(storyItemViewModel == null) return;
+    final story = _db
+        .collection("stores")
+        .doc(storyViewModel?.id)
+        .collection('items')
+        .doc(storyItemViewModel.id);
+
+    storyItemViewModel.setSeen(true);
+    story.set(storyItemViewModel.toFirestore());
+  }
+
 
   void toggleLikeButton(PostViewModel? postViewModel) {
     if (postViewModel == null) return;
