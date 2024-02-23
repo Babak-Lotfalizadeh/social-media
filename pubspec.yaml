@@ -20,6 +20,7 @@ dependencies:
   get_it: ^7.6.7
   json_annotation: ^4.8.0
   smooth_page_indicator: ^1.1.0
+  camera: ^0.10.5+9
 
 dev_dependencies:
   flutter_test:

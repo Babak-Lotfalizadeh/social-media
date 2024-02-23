@@ -43,6 +43,11 @@ class MyBottomNavigationBar extends StatelessWidget {
             title: appLocalizations?.search ?? '',
           ).item,
           MyBottomNavigationBarItem(
+            iconData: Icons.add_box_outlined,
+            activeIconData: Icons.add_box,
+            title: appLocalizations?.posts ?? '',
+          ).item,
+          MyBottomNavigationBarItem(
             iconData: Icons.play_circle_outline,
             activeIconData: Icons.play_circle_fill,
             title: appLocalizations?.play ?? '',
