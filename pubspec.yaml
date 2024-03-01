@@ -21,6 +21,7 @@ dependencies:
   json_annotation: ^4.8.0
   smooth_page_indicator: ^1.1.0
   camera: ^0.10.5+9
+  firebase_storage: ^11.6.7
 
 dev_dependencies:
   flutter_test:

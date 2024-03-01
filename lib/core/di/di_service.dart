@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:social_media/core/firebase/firebase_auth_service.dart';
 import 'package:social_media/core/firebase/firebase_service.dart';
+import 'package:social_media/core/firebase/firebase_storage_service.dart';
 import 'package:social_media/core/firebase/firestore_service.dart';
 
 final getIt = GetIt.instance;
@@ -12,6 +13,7 @@ class DIService {
     await FirebaseService.setup();
     getIt.registerSingleton(FireStoreService.setup());
     getIt.registerSingleton(FirebaseAuthService.setup());
+    getIt.registerSingleton(FirebaseStorageService.setup());
   }
 
 }

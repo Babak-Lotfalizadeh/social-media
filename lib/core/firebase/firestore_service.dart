@@ -138,4 +138,9 @@ class FireStoreService {
     postViewModel.toggleLikeButton();
     post.set(postViewModel.toJson());
   }
+
+  Future<void> newPost(PostViewModel postViewModel) async {
+    final post = _db.collection("posts");
+    await post.add(postViewModel.toJson());
+  }
 }
