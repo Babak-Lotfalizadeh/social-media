@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:social_media/core/theme/static_sizes.dart';
 import 'package:social_media/ui/add_post/edit_post_page.dart';
 import 'package:social_media/ui/add_post/widget/camera_bottom_bar.dart';
 import 'package:social_media/utils/context_extension.dart';
+import 'package:social_media/utils/export.dart';
 import 'package:social_media/utils/post_type.dart';
 
 class AddPostPage extends StatefulWidget {
@@ -31,6 +33,7 @@ class _AddPostPageState extends State<AddPostPage> {
       _cameraController = CameraController(
         cameras.first,
         ResolutionPreset.ultraHigh,
+        imageFormatGroup: ImageFormatGroup.jpeg,
       );
 
       _cameraController?.initialize().then((_) {
@@ -72,9 +75,34 @@ class _AddPostPageState extends State<AddPostPage> {
   }
 
   void onCameraShot() {
-    _cameraController?.takePicture().then((value) {
-      var image = File(value.path);
-      context.push(EditPostPage(postType: postType, image: image));
+    final string = AppLocalizations.of(context);
+    _cameraController?.takePicture().then((value) async {
+      CroppedFile? croppedFile = await ImageCropper().cropImage(
+        sourcePath: value.path,
+        aspectRatioPresets: [
+          if(postType == PostType.post)
+            CropAspectRatioPreset.ratio4x3,
+          if(postType == PostType.story)
+            CropAspectRatioPreset.original,
+        ],
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: string?.editPhoto ?? "",
+            toolbarColor: Theme.of(context).primaryColor,
+            toolbarWidgetColor: Theme.of(context).cardColor,
+          ),
+          IOSUiSettings(
+            title: string?.editPhoto ?? "",
+          ),
+        ],
+      );
+
+      if (croppedFile != null) {
+        File image = File(croppedFile.path);
+        if (context.mounted) {
+          context.push(EditPostPage(postType: postType, image: image));
+        }
+      }
     });
   }
 
@@ -89,7 +117,8 @@ class _AddPostPageState extends State<AddPostPage> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: double.infinity,
-                color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
+                color:
+                    Theme.of(context).scaffoldBackgroundColor.withOpacity(0.5),
                 padding: EdgeInsets.all(StaticSize.paddingLarge),
                 child: CameraBottomBar(
                   onCameraShot: onCameraShot,

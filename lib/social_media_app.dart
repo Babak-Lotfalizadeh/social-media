@@ -4,6 +4,8 @@ import 'package:social_media/core/theme/my_theme.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:social_media/ui/add_post/bloc/add_post_bloc.dart';
 import 'package:social_media/ui/add_post/bloc/add_post_state.dart';
+import 'package:social_media/ui/bottom_navigation_bar/bloc/bottom_navigation_bloc.dart';
+import 'package:social_media/ui/bottom_navigation_bar/bloc/bottom_navigation_state.dart';
 import 'package:social_media/ui/home/bloc/home_bloc.dart';
 import 'package:social_media/ui/home/bloc/home_event.dart';
 import 'package:social_media/ui/home/bloc/home_state.dart';
@@ -38,6 +40,11 @@ class SocialMediaApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => AddPostBloc(AddPostState()),
+        ),
+        BlocProvider(
+          create: (context) => BottomNavigationBloc(
+            BottomNavigationState(value: 0),
+          ),
         ),
       ],
       child: MaterialApp(

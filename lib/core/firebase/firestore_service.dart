@@ -107,10 +107,8 @@ class FireStoreService {
   Future<void> markStoryAsSeen({
     required StoryViewModel? storyViewModel,
   }) async {
-    if(storyViewModel == null) return;
-    final story = _db
-        .collection("stores")
-        .doc(storyViewModel.id);
+    if (storyViewModel == null) return;
+    final story = _db.collection("stores").doc(storyViewModel.id);
 
     storyViewModel.setSeen(true);
     story.set(storyViewModel.toFirestore());
@@ -120,7 +118,7 @@ class FireStoreService {
     required StoryItemViewModel? storyItemViewModel,
     required StoryViewModel? storyViewModel,
   }) async {
-    if(storyItemViewModel == null) return;
+    if (storyItemViewModel == null) return;
     final story = _db
         .collection("stores")
         .doc(storyViewModel?.id)
@@ -130,7 +128,6 @@ class FireStoreService {
     storyItemViewModel.setSeen(true);
     story.set(storyItemViewModel.toFirestore());
   }
-
 
   void toggleLikeButton(PostViewModel? postViewModel) {
     if (postViewModel == null) return;
@@ -142,5 +139,30 @@ class FireStoreService {
   Future<void> newPost(PostViewModel postViewModel) async {
     final post = _db.collection("posts");
     await post.add(postViewModel.toJson());
+  }
+
+  Future<void> newStory({
+    required StoryViewModel storyViewModel,
+    required StoryItemViewModel storyItemViewModel,
+  }) async {
+    final storyCollection = _db.collection("stores");
+    final storyDoc = await storyCollection
+        .where(
+          'userId',
+          isEqualTo: storyViewModel.userId,
+        )
+        .get();
+
+    _db
+        .collection("stores")
+        .doc(storyDoc.docs.first.id).set(
+        storyViewModel.toFirestore()
+    );
+
+    _db
+        .collection("stores")
+        .doc(storyDoc.docs.first.id)
+        .collection('items')
+        .add(storyItemViewModel.toFirestore());
   }
 }

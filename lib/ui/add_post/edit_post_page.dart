@@ -1,11 +1,15 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_media/core/theme/static_sizes.dart';
 import 'package:social_media/ui/add_post/bloc/add_post_bloc.dart';
 import 'package:social_media/ui/add_post/bloc/add_post_event.dart';
 import 'package:social_media/ui/add_post/widget/post_page_button.dart';
+import 'package:social_media/ui/bottom_navigation_bar/bloc/bottom_navigation_bloc.dart';
+import 'package:social_media/ui/bottom_navigation_bar/bloc/bottom_navigation_event.dart';
 import 'package:social_media/utils/context_extension.dart';
 import 'package:social_media/utils/post_type.dart';
 
@@ -29,31 +33,36 @@ class _EditPostPageState extends State<EditPostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Image.file(
-              widget.image,
-              height: MediaQuery.of(context).size.height,
-              fit: BoxFit.cover,
-            ),
-            Align(
-              alignment: Alignment.topLeft,
-              child: PostPageButton(
+        child: Padding(
+          padding: EdgeInsets.all(StaticSize.paddingNormal),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              PostPageButton(
                 iconData: Icons.cancel,
                 onPressed: () => context.pop(),
               ),
-            ),
-            Scaffold(
-              backgroundColor: Colors.transparent,
-              body: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: EdgeInsets.all(StaticSize.paddingNormal),
-                  child: Row(
-                    children: [
-                      Expanded(
+              Expanded(
+                child: Center(
+                  child: AspectRatio(
+                    aspectRatio:
+                        widget.postType == PostType.post ? 4 / 3 : 9 / 16,
+                    child: Image.file(
+                      widget.image,
+                      height: MediaQuery.of(context).size.height,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(StaticSize.paddingNormal),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Visibility(
+                        visible: widget.postType == PostType.post,
                         child: TextField(
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
@@ -64,23 +73,30 @@ class _EditPostPageState extends State<EditPostPage> {
                           controller: descriptionController,
                         ),
                       ),
-                      PostPageButton(
-                        onPressed: () {
-                          context.read<AddPostBloc>().add(
-                                AddPostEventCreateAPost(
-                                  file: widget.image,
-                                  description: descriptionController.text,
-                                ),
-                              );
-                        },
-                        iconData: Icons.send,
-                      ),
-                    ],
-                  ),
+                    ),
+                    PostPageButton(
+                      onPressed: () {
+                        context.read<AddPostBloc>().add(
+                              AddPostEventCreateAPost(
+                                file: widget.image,
+                                description: descriptionController.text,
+                                postType: widget.postType,
+                              ),
+                            );
+                        context.read<BottomNavigationBloc>().add(
+                            BottomNavigationChangeValue(
+                              newValue: 0,
+                            ),
+                        );
+                        context.pop();
+                      },
+                      iconData: Icons.send,
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

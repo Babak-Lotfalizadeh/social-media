@@ -50,6 +50,8 @@ class _PostImageWidgetState extends State<PostImageWidget>
               children: [
                 Image.network(
                   widget.postViewModel?.image ?? '',
+                  width: double.infinity,
+                  height: double.infinity,
                   fit: BoxFit.cover,
                 ),
                 Align(

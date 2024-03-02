@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class StoryItemViewModel {
   final String id;
   final String image;
@@ -14,12 +13,18 @@ class StoryItemViewModel {
     required this.date,
   });
 
+  StoryItemViewModel.create({
+    required this.image,
+  })  : id = '',
+        seen = false,
+        date = DateTime.now();
 
   void setSeen(bool newValue) {
     seen = newValue;
   }
 
-  factory StoryItemViewModel.fromFirestore(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+  factory StoryItemViewModel.fromFirestore(
+      DocumentSnapshot<Map<String, dynamic>> snapshot) {
     final data = snapshot.data();
     return StoryItemViewModel(
       date: (data?['date'] as Timestamp).toDate(),

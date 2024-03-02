@@ -11,5 +11,6 @@
   "followers": "followers",
   "following": "following",
   "editProfile": "Edit profile",
-  "shareProfile": "Share profile"
+  "shareProfile": "Share profile",
+  "editPhoto":"Edit Photo"
 }
