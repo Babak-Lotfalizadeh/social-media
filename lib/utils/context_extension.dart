@@ -16,8 +16,8 @@ extension ContextExtension on BuildContext {
     );
   }
 
-  void pop(){
-    Navigator.of(this).pop();
+  void pop([bool result = false]){
+    Navigator.of(this).pop(result);
   }
 
 }

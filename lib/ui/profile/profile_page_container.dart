@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:social_media/data/model/post_view_model.dart';
 import 'package:social_media/data/model/user_view_model.dart';
 import 'package:social_media/ui/home/widget/user_image.dart';
+import 'package:social_media/ui/post/post_list_page.dart';
 import 'package:social_media/ui/profile/widget/field_value_widget.dart';
 import 'package:social_media/ui/public/my_button.dart';
+import 'package:social_media/utils/context_extension.dart';
 import 'package:social_media/utils/export.dart';
 
 class ProfilePageContainer extends StatelessWidget {
@@ -91,25 +93,34 @@ class ProfilePageContainer extends StatelessWidget {
                 ],
               ),
               SizedBox(height: StaticSize.paddingLarge),
-              if(snapshotPosts.hasData && snapshotPosts.data != null)
-              GridView.builder(
-                shrinkWrap: true,
-                primary: false,
-                itemCount: snapshotPosts.data?.length ?? 0,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              if (snapshotPosts.hasData && snapshotPosts.data != null)
+                GridView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  itemCount: snapshotPosts.data?.length ?? 0,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: StaticSize.paddingSmall,
                     mainAxisSpacing: StaticSize.paddingSmall,
+                  ),
+                  itemBuilder: (context, index) {
+                    final item = snapshotPosts.data?[index];
+                    if (item == null) return const SizedBox.shrink();
+                    return GestureDetector(
+                      onTap: () {
+                        context.push(
+                          PostListPage(
+                            posts: snapshotPosts.data,
+                          ),
+                        );
+                      },
+                      child: Image.network(
+                        item.image,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
                 ),
-                itemBuilder: (context, index) {
-                  final item = snapshotPosts.data?[index];
-                  if(item == null) return const SizedBox.shrink();
-                  return Image.network(
-                    item.image,
-                    fit: BoxFit.cover,
-                  );
-                },
-              ),
             ],
           );
         },

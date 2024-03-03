@@ -165,4 +165,8 @@ class FireStoreService {
         .collection('items')
         .add(storyItemViewModel.toFirestore());
   }
+
+  Future<void> deletePost(PostViewModel? postViewModel) async {
+    await  _db.collection("posts").doc(postViewModel?.id).delete();
+  }
 }

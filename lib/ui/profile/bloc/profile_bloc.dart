@@ -10,6 +10,7 @@ import 'package:social_media/ui/profile/bloc/profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc(super.initialState) {
     on<ProfileEventGetData>(_getData);
+    on<ProfileEventDeletePost>(_deletePost);
   }
 
   Future<void> _getData(
@@ -27,5 +28,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       userViewModel: userViewModel,
       post: posts,
     ));
+  }
+
+  Future<void> _deletePost(
+    ProfileEventDeletePost event,
+    Emitter<ProfileState> emit,
+  ) async {
+    getIt<FireStoreService>().deletePost(event.postViewModel);
   }
 }
